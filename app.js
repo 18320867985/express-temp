@@ -50,7 +50,7 @@ app.use(session({
 app.use(function(req,res,next){ 
     var reqOrigin = req.header("origin");
     if(reqOrigin !=undefined ){
-      res.header("Access-Control-Allow-Origin", "*");   // * 表示所以站点可以访问,单个指定例如：http://localhost:8888
+      res.header("Access-Control-Allow-Origin", "*");  // * 表示所有站点可以访问,单个指定例如：http://localhost:8888
       res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
       res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
     }
