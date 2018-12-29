@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: false })); // for parsing application/x-w
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
+// 配合前端打包工具使用 前端打包文件夹html
 let ueditorDir,ueditorUpload,htmlStatic,nunjucksDir;
 // dev
  ueditorUpload=path.join(__dirname, 'html/src');

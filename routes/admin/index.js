@@ -1,11 +1,9 @@
 var express = require('express');
 module.exports = router = express.Router();
 
-
+require("./filter");
 // user
 require("./user");
-
-require("./filter");
 // userRule
 require("./userRule");
 
