@@ -59,8 +59,10 @@ app.use(function(req,res,next){
   });
   
 // route 
- let indexRouter = require('./routes/index');
+let indexRouter = require('./routes/index');
+let  adminRouter = require('./routes/admin/index');
 app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 
 
 // ueditor
