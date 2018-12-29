@@ -1,0 +1,8 @@
+
+
+#  node server Dependency directory
+
+/node_modules
+
+#  node  html Dependency directory
+/html/node_modules
