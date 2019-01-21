@@ -7,9 +7,8 @@ const components=[
 
             var fmt = typeof fmt !== "string" ? "yyyy-MM-dd HH:mm:ss" : fmt;
 			var txts = value.toString().replace("/Date(", "").replace(")/", "");
-			var times = parseInt(txts);
-			times = isNaN(times) ? new Date(1970, 0, 1, 0, 0, 1) : times;
-
+			var times = Number(txts);
+			times = isNaN(times) ?  new Date(value).getTime() : times;
 			var dt = new Date(Number(times.toString()));
 			var o = {
 				"M+": dt.getMonth() + 1, //月份 
