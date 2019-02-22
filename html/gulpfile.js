@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var watch=require("gulp-watch");
 var del = require("del");
 var minCss = require('gulp-clean-css'); //gulp-minify-css:压缩css文件 npm install gulp-clean-css
 var connect = require('gulp-connect'); //gulp-connect 创建服务器  npm install --save-dev gulp-connect
@@ -51,8 +52,8 @@ gulp.task('release', ["build-scss", "build"], function () {
 		.pipe(minHtml({ collapseWhitespace: true }))  // 压缩html
 		.pipe(gulp.dest('./dist/'));                  //复制html
 
-	gulp.src('./src/static/css/**/*.*')
-		.pipe(minCss()).pipe(gulp.dest('./dist/static/css')); //复制css
+	gulp.src(['./src/static/css/**/*.css','!./src/static/css/iframe/**/*.css']).pipe(minCss()).pipe(gulp.dest('./dist/static/css')); //复制css
+	gulp.src(['./src/static/css/iframe/**/*.css']).pipe(gulp.dest('./dist/static/css/iframe')); //兼容iframe框架 已有的css 不压缩css
 
 	gulp.src('./src/static/js/**/*.*')
 		.pipe(gulp.dest('./dist/static/js/')); //复制js
@@ -64,7 +65,7 @@ gulp.task('release', ["build-scss", "build"], function () {
 		gulp.src(['./src/ueditor/**/*.*'])  // ueditor 富文本编辑器
 		.pipe(gulp.dest('./dist/ueditor'));  
 
-	gulp.src(['./src/static/**/*.*', '!./src/static/css/**/*.*', '!./src/static/js/**/*.*', '!./src/static/images/**/*.*']).pipe(gulp.dest('./dist/static'));
+	gulp.src(['./src/static/**/*.*', '!./src/static/css/**/*.css', '!./src/static/js/**/*.*', '!./src/static/images/**/*.*']).pipe(gulp.dest('./dist/static'));
 
 });
 
@@ -72,15 +73,23 @@ gulp.task('release', ["build-scss", "build"], function () {
 gulp.task("watch", ['build-scss', 'build', 'connect'], function () {
 
 	//合拼vue组件css和js文件
-	gulp.watch(paths.jspath, ["dev"]);
+	watch(paths.jspath, function(){
+		gulp.start("dev");
+	});
 
 	//全局sass的css文件
-	gulp.watch(paths.scssPath, ['dev-scss', function () {
-		gulp.src(paths.scssPath).pipe(connect.reload());
-	}]);
+	watch(paths.scssPath, function () {
+		gulp.start("dev-scss",function(){
+			gulp.src(paths.scssPath).pipe(connect.reload());
+		});
+
+	});
 
 	//监听html
-	gulp.watch(paths.htmlPath, ["html"]);
+	watch(paths.htmlPath, ["html"],function(){
+		gulp.start("html");
+	});
+
 
 });
 
@@ -88,15 +97,23 @@ gulp.task("html", function () {
 	gulp.src(paths.htmlPath).pipe(connect.reload());
 });
 
+
 //开启http服务器
-gulp.task('connect', function () {
+
+var sev=function(){
 	connect.server({
 		root: 'src',
 		livereload: true,
 		port: 8888,
 
+
 	});
+}
+gulp.task('connect',
+ function () {
+	sev();
 });
+
 
 
 // 全局的scss 
