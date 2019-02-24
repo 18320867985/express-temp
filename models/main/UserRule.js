@@ -10,6 +10,6 @@ var schema = new orm.mongoose.Schema({
 });
 
 
-var UserRule =dbHelp.db.model("UserRule", schema);
+var UserRule =orm.db.model("UserRule", schema);
 
 module.exports = UserRule;

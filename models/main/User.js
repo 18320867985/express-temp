@@ -21,6 +21,6 @@ var schema = new orm.mongoose.Schema({
 });
 
 
-var User =dbHelp.db.model("User", schema);
+var User =orm.db.model("User", schema);
 
 module.exports = User;
